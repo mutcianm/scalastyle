@@ -8,25 +8,33 @@ scalaVersion := "2.10.5"
 
 scalacOptions ++= Seq("-deprecation", "-feature")
 
-crossScalaVersions := Seq("2.10.5", "2.11.6")
+crossScalaVersions := Seq("2.10.5", "2.11.6", "2.12.0-M4")
 
 description := "Scalastyle style checker for Scala"
 
 libraryDependencies ++= Seq(
-                        "org.scalariform" %% "scalariform" % "0.1.7",
+                        "org.scalariform" %% "scalariform" % "0.2.0",
                         "com.typesafe" % "config" % "1.2.0",
                         "junit" % "junit" % "4.11" % "test",
                         "com.novocode" % "junit-interface" % "0.10" % "test",
-                        "com.google.guava" % "guava" % "17.0" % "test",
-                        "org.scalatest" %% "scalatest" % "2.2.2" % "test")
+                        "com.google.guava" % "guava" % "17.0" % "test")
+
+libraryDependencies ++= scala212Deps.value
 
 fork in Test := true
 
 javaOptions in Test += "-Dfile.encoding=UTF-8"
 
-coverageHighlighting := {
-  if (scalaBinaryVersion.value == "2.10") false
-  else true
+//coverageHighlighting := {
+  //if (scalaBinaryVersion.value == "2.10") false
+  //else true
+//}
+
+def scala212Deps = Def.setting {
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2,12)) => Seq("org.scalatest" %% "scalatest" % "2.2.6" )
+    case Some((2,_)) => Seq("org.scalatest" %% "scalatest" % "2.2.4")
+  }
 }
 
 publishMavenStyle := true
