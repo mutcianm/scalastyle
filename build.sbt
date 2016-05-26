@@ -2,7 +2,7 @@ import AssemblyKeys._
 
 name := "scalastyle"
 
-organization := "org.scalastyle"
+organization := "org.jetbrains"
 
 scalaVersion := "2.10.5"
 
@@ -37,31 +37,8 @@ def scala212Deps = Def.setting {
   }
 }
 
-publishMavenStyle := true
-
-publishTo := {
-  val nexus = "https://oss.sonatype.org/"
-  if (version.value.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "content/repositories/snapshots") 
-  else Some("releases"  at nexus + "service/local/staging/deploy/maven2")
-}
 
 licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0.html"))
-
-pomIncludeRepository := { _ => false }
-
-pomExtra := (
-  <url>http://www.scalastyle.org</url>
-  <scm>
-    <url>scm:git:git@github.com:scalastyle/scalastyle.git</url>
-    <connection>scm:git:git@github.com:scalastyle/scalastyle.git</connection>
-  </scm>
-  <developers>
-    <developer>
-      <id>matthewfarwell</id>
-      <name>Matthew Farwell</name>
-      <url>http://www.farwell.co.uk</url>
-    </developer>
-  </developers>)
 
 assemblySettings
 
@@ -83,12 +60,6 @@ buildInfoPackage := "org.scalastyle"
 
 seq(filterSettings: _*)
 
-if (System.getProperty("scalastyle.publish-ivy-only") == "true") {
-  Seq()
-}  else {
-  Seq(aetherPublishBothSettings: _*)
-}
-
 aether.Aether.aetherLocalRepo := Path.userHome / "dev" / "repo"
 
 EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Managed
@@ -106,3 +77,11 @@ val dynamicPublish = Def.taskDyn {
 }
 
 ReleaseKeys.publishArtifactsAction := dynamicPublish.value
+
+publishArtifact in Test := false
+
+publishMavenStyle := false
+
+bintrayOrganization := Some("jetbrains")
+
+bintrayRepository := "scala-plugin-deps"
