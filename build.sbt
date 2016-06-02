@@ -2,7 +2,7 @@ import AssemblyKeys._
 
 name := "scalastyle"
 
-organization := "org.jetbrains"
+organization := "org.scalastyle"
 
 scalaVersion := "2.10.5"
 
@@ -24,6 +24,11 @@ libraryDependencies ++= scala212Deps.value
 fork in Test := true
 
 javaOptions in Test += "-Dfile.encoding=UTF-8"
+
+def jbBintrayResolver(name: String, repo: String, patterns: Patterns) =
+        Resolver.url(name, url(s"http://dl.bintray.com/jetbrains/$repo"))(patterns)
+
+resolvers += jbBintrayResolver("scala-plugin-deps", "scala-plugin-deps", Resolver.ivyStylePatterns)
 
 //coverageHighlighting := {
   //if (scalaBinaryVersion.value == "2.10") false
