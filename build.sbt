@@ -8,7 +8,7 @@ scalaVersion := "2.10.5"
 
 scalacOptions ++= Seq("-deprecation", "-feature")
 
-crossScalaVersions := Seq("2.10.5", "2.11.6", "2.12.0-M4")
+crossScalaVersions := Seq("2.10.5", "2.11.6", "2.12.1")
 
 description := "Scalastyle style checker for Scala"
 
@@ -37,7 +37,7 @@ resolvers += jbBintrayResolver("scala-plugin-deps", "scala-plugin-deps", Resolve
 
 def scala212Deps = Def.setting {
   CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2,12)) => Seq("org.scalatest" %% "scalatest" % "2.2.6" )
+    case Some((2,12)) => Seq("org.scalatest" %% "scalatest" % "3.0.0" )
     case Some((2,_)) => Seq("org.scalatest" %% "scalatest" % "2.2.4")
   }
 }
